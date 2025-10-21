@@ -45,3 +45,22 @@ bathroom_nb = 'bathroom_number'
 #         break
 #
 # print("✅ Finished clicking 20 times.")
+
+
+# columns
+# title, year, duration, pg_rating, metascore, rating, vote_count, genre, description, director, stars (meaning actors)
+
+
+Columns for the dataset:
+------------------------
+1- title
+2- year
+3- duration
+4- pg_rating
+5- metascore
+6- rating
+7- vote_count
+8- genre
+9- description
+10- director
+11- stars (meaning actors)
