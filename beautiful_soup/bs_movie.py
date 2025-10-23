@@ -49,14 +49,14 @@ for movie in movies:
     year = inner_movie.find('div', { "class" : "title ott_false" }).find('h2').find('span').text
     user_score = inner_movie.find('div', { "class" : "user_score_chart" }).get_attribute_list("data-percent")[0]
     pg_rating = inner_movie.find('span', { "class" : "certification" }).text.strip() if inner_movie.find('span', { "class" : "certification" }) else "Not Rated"
-    release = inner_movie.find('span', { "class" : "release" }).text.strip() if inner_movie.find('span', { "class" : "release" }) else None
-    genres = inner_movie.find('span', { "class" : "genres" }).text.strip() if inner_movie.find('span', { "class" : "genres" }) else None
-    duration = inner_movie.find('span', { "class" : "runtime" }).text.strip() if inner_movie.find('span', { "class" : "runtime" }) else None
-    overview = inner_movie.find('div', { "class" : "overview" }).find('p').text.strip() if inner_movie.find('div', { "class" : "overview" }) else None
+    release = inner_movie.find('span', { "class" : "release" }).text.strip() if inner_movie.find('span', { "class" : "release" }) else "No release date"
+    genres = inner_movie.find('span', { "class" : "genres" }).text.strip() if inner_movie.find('span', { "class" : "genres" }) else "No genres"
+    duration = inner_movie.find('span', { "class" : "runtime" }).text.strip() if inner_movie.find('span', { "class" : "runtime" }) else "No duration"
+    overview = inner_movie.find('div', { "class" : "overview" }).find('p').text.strip() if inner_movie.find('div', { "class" : "overview" }) else "No overview"
 
     side_facts = inner_movie.find('section', { "class" : "facts left_column" })
-    original_title = side_facts.find('p', { "class" : "wrap" }).text if side_facts.find('p', { "class" : "wrap" }) else None
-    status = side_facts.find_all('p')[1].text
+    original_title = side_facts.find('p', { "class" : "wrap" }).text if side_facts.find('p', { "class" : "wrap" }) else "No original title"
+    status = side_facts.find_all('p')[1].text.replace("Status", "", 1).strip() if len(side_facts.find_all('p')) > 1 and original_title != "No original title" else side_facts.find_all('p')[0].text.replace("Status", "", 1).strip()
 
     # year = inner_movie.find('h2', { "class" : "9" }).find('span').text
     print("title: ", title)
@@ -69,6 +69,7 @@ for movie in movies:
     print("overview:", overview)
     print("original_title:", original_title)
     print("status:", status)
+    print(("-------------------------------------------------\n"))
 
 
 driver.quit()
