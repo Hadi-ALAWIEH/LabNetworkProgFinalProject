@@ -1,3 +1,28 @@
+# TODO: you still need to handle the budget, the revenue and the original language, and the director and writer of the movie, all other fields are done
+'''
+
+# columns that I have scraped:
+title
+year
+user score
+pg_rating
+release
+genres
+duration
+overview
+original_title
+status
+movie keywords
+top stars
+
+# columns that I still need to scrape:
+budget
+revenue
+original language
+director
+writer
+
+'''
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -5,7 +30,10 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 
 driver = webdriver.Chrome()
-driver.get("https://www.themoviedb.org/movie")
+page_counter = 2
+base_url = f"https://www.themoviedb.org/movie?page={page_counter}"
+
+driver.get(base_url)
 
 
 soup = BeautifulSoup(driver.page_source, 'html5lib')
@@ -18,8 +46,14 @@ soup = BeautifulSoup(driver.page_source, 'html5lib')
 
 page = soup.find_all('div', { "class" : "page_wrapper" })[0]
 movies = page.find_all('div', { "class" : "card style_1"})
-print(f"Found {len(movies)} movies.\n")
+time.sleep(2)  # wait for the page to load
 
+# driver.get(f"{base_url}{soup.find_all("p", { "class" : "load_more" })[1].find("a").get_attribute_list("href")[0]}"))
+# next_url_segement = soup.find_all("p", { "class" : "load_more" })[1].find("a").get_attribute_list("href")[0]
+# print(next_url_segement)
+
+time.sleep(2)  # wait for the page to load after clicking load more
+print(f"Found {len(movies)} movies.\n")
 for movie in movies:
     h2_tag = movie.find('h2')
     a_tag = h2_tag.find('a')
@@ -36,7 +70,7 @@ for movie in movies:
     duration = None
     overview = None
     director = None
-    actors = None
+    top_stars = None
     original_title = None
     status = None
     original_language = None
@@ -59,11 +93,8 @@ for movie in movies:
     # budget = side_fact
     # revenue = side_fact
 
-    # movie_keywords = inner_movie.find("section", { "class" : "keywords right_column" }).find("ul").find_all("li") if inner_movie.find("section", { "class" : "keywords right_column"}) else "No keywords"
-    # movies_keywords_list = [keyword.find("a").text for keyword in movie_keywords]
-
+    # finding the keywords for the movie
     keywords_section = inner_movie.find("section", {"class": "keywords right_column"})
-
     if keywords_section:
         ul_tag = keywords_section.find("ul")
         if ul_tag:  # movie has keywords
@@ -72,6 +103,11 @@ for movie in movies:
             movie_keywords = ["No keywords"]
     else:
         movie_keywords = ["No keywords"]
+
+    # finding the top 3 stars of the movie
+    top_stars = inner_movie.find("ol", {"class": "people scroller"}).find_all("li", limit=3)
+    top_stars_list = [top_star.find("p").find("a").text for top_star in top_stars]
+
 
 
     # year = inner_movie.find('h2', { "class" : "9" }).find('span').text
@@ -84,8 +120,10 @@ for movie in movies:
     print("duration:", duration)
     print("overview:", overview)
     print("original_title:", original_title)
+    print("original_language:", original_language)
     print("status:", status)
     print("movie keywords: ", movie_keywords)
+    print("top stars: ", top_stars_list)
     print(("-------------------------------------------------\n"))
 
 
@@ -105,13 +143,13 @@ genres - done
 duration - done
 overview - done
 director
-actors
+top_actors
 original title - done
 status - done
 original language - done
 budget
 revenue
-movie_keywords
+movie_keywords - done
 '''
 
 
@@ -161,3 +199,5 @@ Z0C2Hi9x1s.jpg" srcset="https://media.themoviedb.org/t/p/w220_and_h330_face/yzqH
  </div>
 </div>
 '''
+
+# soup.find_all("p", { "class" : "load_more" })[2].find("a").click()
