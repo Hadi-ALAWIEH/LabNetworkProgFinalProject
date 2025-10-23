@@ -27,7 +27,6 @@ def handle_more_info_movie_popup(driver, movie_counter):
     # the same class is used for both directors and stars lists, so we will get both and differentiate by index
     directors_and_stars_list_class = "ipc-inline-list.ipc-inline-list--show-dividers.ipc-inline-list--inline.baseAlt"
     directors_and_stars_list = popup_container.find_elements(By.CLASS_NAME, directors_and_stars_list_class)
-    # print(f"Found {len(directors_and_stars_list)} lists for directors and stars.")
 
     directors_list = directors_and_stars_list[2]
     director_items = directors_list.find_elements(By.TAG_NAME, "li")
@@ -37,17 +36,13 @@ def handle_more_info_movie_popup(driver, movie_counter):
     star_items = starts_list.find_elements(By.TAG_NAME, "li")
     stars = ", ".join([item.text for item in star_items if item.text]) or "Unknown Stars"
 
-    # print("Directors:", directors)
-    # print("Stars:", stars)
-    #
-
     # --- Extract the genre list from the popup ---
     genre_ul = WebDriverWait(driver, 5).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, 'ul[data-testid="btp_gl"]'))
     )
     genre_items = genre_ul.find_elements(By.TAG_NAME, "li")
     genres = ", ".join([item.text for item in genre_items if item.text]) or "No Genre Info"
-    # print("Genres:", genres)
+
     return genres, directors, stars
 
 
@@ -112,9 +107,7 @@ for movie in movie_containers:
     # rating_and_voting_span = movie.find_element(By.TAG_NAME, "span") # this will return a span element
     rating_and_voting_span = driver.find_elements(By.CLASS_NAME, "sc-caa65599-1.dBwcUJ")[movie_counter]
     rating_and_voting = rating_and_voting_span.find_element(By.TAG_NAME, "div").find_element(By.TAG_NAME, "span").find_elements(By.TAG_NAME, "span")
-    # print(len(rating_and_voting))
 
-    print(rating_and_voting_span.text)
     inner_container_spans = data_inner_container.find_elements(By.TAG_NAME, "span")
 
     # extract the movie title directly from the movie container
@@ -126,13 +119,11 @@ for movie in movie_containers:
     pg_r_rating = inner_container_spans[2].text if len(inner_container_spans) > 2 else "Not Rated"
     movie_metascore = inner_container_spans[3].find_elements(By.TAG_NAME, "span")[0].text if len(inner_container_spans) > 3 else "No Metascore"
 
-    # span > div > span > spans ( two of them )
 
     movie_rating = rating_and_voting[0].text
     vote_count =  rating_and_voting[1].text
 
     movie_description = driver.find_elements(By.CLASS_NAME, "ipc-html-content-inner-div")[movie_counter].text
-    # print("The description is:", movie_description)
 
     # todo: call the function to handle the popup for more movie info
     genres_of_current_movie, directors_of_current_movie, stars_of_current_movie = handle_more_info_movie_popup(driver, movie_counter)
@@ -145,29 +136,34 @@ for movie in movie_containers:
 
     # make sure of the output of the 11 columns ( 10 of them being features and 1 of them being the target )
     print("Processing movie number:", movie_counter)
-    print(f"The title of this movie is : {movie_title}\n")
-    print(f"The year of this movie is : {movie_year}\n")
-    print(f"The duration of this movie is : {movie_duration}\n")
-    print(f"The R rating of this movie is : {pg_r_rating}\n")
-    print(f"The metascore of this movie is : {movie_metascore}\n")
-    print(f"The actual rating of this movie is : {movie_rating}\n")
-    print(f"The vote count of this movie is : {vote_count}\n")
-    print(f"The genres of this movie is : {genres_of_current_movie}\n")
-    print(f"The description of this movie is : {movie_description}\n")
-    print(f"The directors of this movie are : {directors_of_current_movie}\n")
-    print(f"The stars of this movie are : {stars_of_current_movie}\n")
+    print(f"The title of this movie is: {movie_title}\n")
+    print(f"The year of this movie is: {movie_year}\n")
+    print(f"The duration of this movie is: {movie_duration}\n")
+    print(f"The R rating of this movie is: {pg_r_rating}\n")
+    print(f"The metascore of this movie is: {movie_metascore}\n")
+    print(f"The actual rating of this movie is: {movie_rating}\n")
+    print(f"The vote count of this movie is: {vote_count}\n")
+    print(f"The genres of this movie is: {genres_of_current_movie}\n")
+    print(f"The description of this movie is: {movie_description}\n")
+    print(f"The directors of this movie are: {directors_of_current_movie}\n")
+    print(f"The stars of this movie are: {stars_of_current_movie}\n")
     print("-------------------------------------------------\n")
 
+    # add the movie info to the movies list
+    add_to_dict_list(movie_title, movie_year, movie_duration, pg_r_rating,
+                     movie_metascore, movie_rating, vote_count, movie_description,
+                     genres_of_current_movie, directors_of_current_movie, stars_of_current_movie)
+
     movie_counter += 1
+
+    # limit to first 10 movies for testing
+    if movie_counter >= 10:
+        break
+
+     # scroll to the next movie
     scroll_into_view(driver, movie)
 
+write_to_csv(movies, filename="movies.csv")
 
 time.sleep(5)
 driver.quit()
-
-'''
-span > div > span > spans ( two of them )
-ipc-icon-button li-info-icon ipc-icon-button--base ipc-icon-button--onAccent2
-ipc-inline-list ipc-inline-list--show-dividers ipc-inline-list--inline baseAlt
-'''
-

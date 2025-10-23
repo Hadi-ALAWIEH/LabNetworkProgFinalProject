@@ -1,6 +1,11 @@
-title,year,duration,rating,metascore,genre,director,actors,description
-The Shawshank Redemption,1994,2h 22m,R,82,N/A,,,N/A
-The Dark Knight,2008,2h 32m,PG-13,85,N/A,,,N/A
-Inception,2010,2h 28m,PG-13,74,N/A,,,N/A
-Fight Club,1999,2h 19m,R,67,N/A,,,N/A
-Pulp Fiction,1994,2h 34m,R,95,N/A,,,N/A
+title,year,duration,pg_rating,metascore,actual_rating,vote_count,description,genre,director,actors
+The Shawshank Redemption,1994,2h 22m,R,82,9.3, (3.1M),"A banker convicted of uxoricide forms a friendship over a quarter century with a hardened convict, while maintaining his innocence and trying to remain hopeful through simple compassion.",Drama,Frank Darabont,"Tim Robbins, Morgan Freeman, Bob Gunton"
+The Dark Knight,2008,2h 32m,PG-13,85,9.1, (3.1M),"When a menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman, James Gordon and Harvey Dent must work together to put an end to the madness.","Action, Crime, Drama",Christopher Nolan,"Christian Bale, Heath Ledger, Aaron Eckhart"
+Inception,2010,2h 28m,PG-13,74,8.8, (2.7M),"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster.","Action, Adventure, Sci-Fi",Christopher Nolan,"Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page"
+Fight Club,1999,2h 19m,R,67,8.8, (2.5M),An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.,"Crime, Drama, Thriller",David Fincher,"Edward Norton, Brad Pitt, Meat Loaf"
+Pulp Fiction,1994,2h 34m,R,95,8.8, (2.4M),"The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.","Crime, Drama",Quentin Tarantino,"Tim Roth, Amanda Plummer, Laura Lovelace"
+Forrest Gump,1994,2h 22m,PG-13,82,8.8, (2.4M),"The history of the United States from the 1950s to the '70s unfolds from the perspective of an Alabama man with an IQ of 75, who yearns to be reunited with his childhood sweetheart.","Drama, Romance",Robert Zemeckis,"Tom Hanks, Rebecca Williams, Sally Field"
+The Lord of the Rings: The Fellowship of the Ring,2001,2h 58m,PG-13,92,8.9, (2.1M),A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.,"Adventure, Drama, Fantasy",Peter Jackson,"Alan Howard, Noel Appleby, Sean Astin"
+The Matrix,1999,2h 16m,R,73,8.7, (2.2M),"When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.","Action, Sci-Fi","Lana Wachowski, Lilly Wachowski","Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss"
+The Lord of the Rings: The Return of the King,2003,3h 21m,PG-13,94,9.0, (2.1M),Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.,"Adventure, Drama, Fantasy",Peter Jackson,"Noel Appleby, Ali Astin, Sean Astin"
+The Godfather,1972,2h 55m,R,100,9.2, (2.2M),The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.,"Crime, Drama",Francis Ford Coppola,"Marlon Brando, Al Pacino, James Caan"
