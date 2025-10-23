@@ -53,10 +53,26 @@ for movie in movies:
     genres = inner_movie.find('span', { "class" : "genres" }).text.strip() if inner_movie.find('span', { "class" : "genres" }) else "No genres"
     duration = inner_movie.find('span', { "class" : "runtime" }).text.strip() if inner_movie.find('span', { "class" : "runtime" }) else "No duration"
     overview = inner_movie.find('div', { "class" : "overview" }).find('p').text.strip() if inner_movie.find('div', { "class" : "overview" }) else "No overview"
-
     side_facts = inner_movie.find('section', { "class" : "facts left_column" })
     original_title = side_facts.find('p', { "class" : "wrap" }).text if side_facts.find('p', { "class" : "wrap" }) else "No original title"
     status = side_facts.find_all('p')[1].text.replace("Status", "", 1).strip() if len(side_facts.find_all('p')) > 1 and original_title != "No original title" else side_facts.find_all('p')[0].text.replace("Status", "", 1).strip()
+    # budget = side_fact
+    # revenue = side_fact
+
+    # movie_keywords = inner_movie.find("section", { "class" : "keywords right_column" }).find("ul").find_all("li") if inner_movie.find("section", { "class" : "keywords right_column"}) else "No keywords"
+    # movies_keywords_list = [keyword.find("a").text for keyword in movie_keywords]
+
+    keywords_section = inner_movie.find("section", {"class": "keywords right_column"})
+
+    if keywords_section:
+        ul_tag = keywords_section.find("ul")
+        if ul_tag:  # movie has keywords
+            movie_keywords = [li.get_text(strip=True) for li in ul_tag.find_all("li")]
+        else:  # no <ul> → movie has no keywords
+            movie_keywords = ["No keywords"]
+    else:
+        movie_keywords = ["No keywords"]
+
 
     # year = inner_movie.find('h2', { "class" : "9" }).find('span').text
     print("title: ", title)
@@ -69,6 +85,7 @@ for movie in movies:
     print("overview:", overview)
     print("original_title:", original_title)
     print("status:", status)
+    print("movie keywords: ", movie_keywords)
     print(("-------------------------------------------------\n"))
 
 
@@ -89,9 +106,9 @@ duration - done
 overview - done
 director
 actors
-original title
-status
-original language
+original title - done
+status - done
+original language - done
 budget
 revenue
 movie_keywords
