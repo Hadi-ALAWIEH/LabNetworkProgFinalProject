@@ -1,3 +1,26 @@
+# TODO: you still need to handle the budget, the revenue and the original language, and the director and writer of the movie, all other fields are done
+'''
+# columns that I have scraped in selenium:
+title
+year
+user score
+pg_rating
+release
+genres
+duration
+overview
+original_title
+status
+movie keywords
+top stars
+
+# columns that I still need to scrape in selenium:
+budget
+revenue
+original language
+director
+writer
+'''
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -23,7 +46,7 @@ for _ in range(2):
         break
     last_height = new_height
 
-# get all movie URLs safely
+# get all movie URLs safely ( I can update this later by adding a loop that paginates through all the pages, to get even a larger list of movie links)
 movie_links = [a.get_attribute("href") for a in driver.find_elements(By.CSS_SELECTOR, "div.card.style_1 h2 a")]
 print(f"Found {len(movie_links)} movies.")
 
@@ -43,6 +66,31 @@ for i, url in enumerate(movie_links[:20]):  # limit to first 5
         genres = driver.find_element(By.CSS_SELECTOR, "span.genres").text.strip() if driver.find_elements(By.CSS_SELECTOR, "span.genres") else "No genres"
         duration = driver.find_element(By.CSS_SELECTOR, "span.runtime").text.strip() if driver.find_elements(By.CSS_SELECTOR, "span.runtime") else "No duration"
         overview = driver.find_element(By.CSS_SELECTOR, "div.overview p").text.strip() if driver.find_elements(By.CSS_SELECTOR, "div.overview p") else "No overview"
+        # locate the "Facts" section on the left column
+        side_facts = driver.find_element(By.CSS_SELECTOR, "section.facts.left_column")
+
+        # try to get the "original title"
+        original_title_element = side_facts.find_elements(By.CSS_SELECTOR, "p.wrap")
+        if original_title_element:
+            original_title = original_title_element[0].text.replace("Original Title", "", 1).strip()
+        else:
+            original_title = "No original title"
+
+        # keywords
+        try:
+            keywords_section = driver.find_element(By.CSS_SELECTOR, "section.keywords.right_column")
+            ul_tag = keywords_section.find_element(By.TAG_NAME, "ul")
+            movie_keywords = [li.text for li in ul_tag.find_elements(By.TAG_NAME, "li")]
+        except:
+            movie_keywords = ["No keywords"]
+
+        # top 3 stars
+        try:
+            top_stars_ol = driver.find_element(By.CSS_SELECTOR, "ol.people.scroller")
+            top_stars_li = top_stars_ol.find_elements(By.TAG_NAME, "li")[:3]  # limit to 3
+            top_stars_list = [li.find_element(By.TAG_NAME, "p").find_element(By.TAG_NAME, "a").text for li in top_stars_li]
+        except:
+            top_stars_list = ["No stars found"]
 
         print("Title:", title)
         print("Year:", year)
@@ -52,6 +100,9 @@ for i, url in enumerate(movie_links[:20]):  # limit to first 5
         print("Genres:", genres)
         print("Duration:", duration)
         print("Overview:", overview)
+        print("Original Title:", original_title)
+        print("Keywords", movie_keywords)
+        print("Top stars", top_stars_list)
 
     except Exception as e:
         print(f"Error scraping movie {i+1}: {e}")

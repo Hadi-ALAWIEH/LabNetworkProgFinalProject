@@ -1,7 +1,6 @@
 # TODO: you still need to handle the budget, the revenue and the original language, and the director and writer of the movie, all other fields are done
 '''
-
-# columns that I have scraped:
+# columns that I have scraped in beutiful soup:
 title
 year
 user score
@@ -15,13 +14,12 @@ status
 movie keywords
 top stars
 
-# columns that I still need to scrape:
+# columns that I still need to scrape in beautiful soup:
 budget
 revenue
 original language
 director
 writer
-
 '''
 from bs4 import BeautifulSoup
 from selenium import webdriver
