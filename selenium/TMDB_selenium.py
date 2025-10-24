@@ -13,11 +13,11 @@ original_title
 status
 movie keywords
 top stars
-
-# columns that I still need to scrape in selenium:
+original language
 budget
 revenue
-original language
+
+# columns that I still need to scrape in selenium:
 director
 writer
 '''
@@ -76,6 +76,35 @@ for i, url in enumerate(movie_links[:20]):  # limit to first 5
         else:
             original_title = "No original title"
 
+
+        # try to find the original language
+        try:
+            original_language = side_facts.find_elements(By.TAG_NAME, "p")[1].text if original_title == "No original title" else side_facts.find_elements(By.TAG_NAME, "p")[2].text
+            original_language = original_language.replace("Original Language", "", 1).strip()
+            original_languages = original_language.split(";")
+        except:
+            original_languages = "No original language found"
+
+
+        # try to find the budget which is a sibling of the original language
+        try:
+            budget = side_facts.find_elements(By.TAG_NAME, "p")[2].text if original_title == "No original title" else side_facts.find_elements(By.TAG_NAME, "p")[3].text
+            budget = budget.replace("Budget", "", 1).strip()
+            if budget == " -":
+                budget = "No budget found"
+        except:
+            budget = "No budget found"
+
+        # try to find the revenue which is a sibling of the original language
+        try:
+            revenue = side_facts.find_elements(By.TAG_NAME, "p")[3].text if original_title == "No original title" else side_facts.find_elements(By.TAG_NAME, "p")[4].text
+            revenue = revenue.replace("Revenue", "", 1).strip()
+            if revenue == " -":
+                revenue = "No revenue found"
+        except:
+            revenue = "No revenue found"
+
+
         # keywords
         try:
             keywords_section = driver.find_element(By.CSS_SELECTOR, "section.keywords.right_column")
@@ -100,7 +129,10 @@ for i, url in enumerate(movie_links[:20]):  # limit to first 5
         print("Genres:", genres)
         print("Duration:", duration)
         print("Overview:", overview)
+        print("Original Languages:", original_languages)
         print("Original Title:", original_title)
+        print("Budget:", budget)
+        print("Revenue:", revenue)
         print("Keywords", movie_keywords)
         print("Top stars", top_stars_list)
 
