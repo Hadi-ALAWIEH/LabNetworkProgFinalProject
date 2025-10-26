@@ -20,8 +20,10 @@ save_every = 100              # save intermediate csv every N movies
 sleep_between_requests = 0.25 # polite delay between requests to avoid rate limits
 discover_sort = "popularity.desc"
 comedy_genre_id = 35         # genre filter (35 = comedy). remove or change if you want
-max_discover_pages = 1000    # max pages to iterate (tmdb may allow high values)
-output_csv = "tmdb_movies_target_count.csv"
+# max_discover_pages = 1000    # I changed this to 2 for testing how much time it takes
+max_discover_pages = 2     # max pages to iterate (tmdb may allow high values)
+# output_csv = "tmdb_movies_target_count.csv"
+output_csv = "test.csv"
 request_timeout = 15
 max_retries = 3
 

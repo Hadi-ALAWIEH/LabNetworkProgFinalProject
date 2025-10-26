@@ -19,7 +19,11 @@ budget
 revenue
 original language
 director
-writer
+
+# columns that are in the api dataset but not in selenium or bs4:
+popularity
+vote_count
+
 '''
 from bs4 import BeautifulSoup
 from selenium import webdriver

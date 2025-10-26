@@ -64,3 +64,29 @@ Columns for the dataset:
 9- description
 10- director
 11- stars (meaning actors)
+
+
+# commands to use in networking
+➜  ~ watch -n 1 'ss -t -a | grep ESTAB || true' ( to watch established connections )
+➜  ~ nload ( to monitor network traffic in real time )
+➜  ~ sudo tcpdump -i any port 80 or port 443 -w ~/scraper_trace.pcap ( to capture traffic on port 80 and 443 )
+
+# Those are the commands to allow all outgoing traffic except https
+sudo ufw default deny outgoing
+sudo ufw allow out 443
+
+➜  ~ sudo ufw allow out to any port 443 ( to allow outgoing https traffic )
+
+# notes for the training of the model
+50 movies outside of training and testing
+950 train and testing
+
+
+to be able to get the data for the table use this command
+sudo tshark -r /tmp/lab2_extended_seq.pcap -q -z io,stat,1 (the interval is 1 second)
+or
+sudo tshark -r /tmp/lab2_extended_seq.pcap -q -z io,stat,0 (the interval is 0 second)
+
+# number of requests
+use the established command to be able to get the number of https commands
+
