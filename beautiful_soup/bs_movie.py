@@ -13,12 +13,10 @@ original_title
 status
 movie keywords
 top stars
-
-# columns that I still need to scrape in beautiful soup:
 budget
 revenue
-original language
 director
+original language
 
 # columns that are in the api dataset but not in selenium or bs4:
 popularity
@@ -92,8 +90,11 @@ for movie in movies:
     side_facts = inner_movie.find('section', { "class" : "facts left_column" })
     original_title = side_facts.find('p', { "class" : "wrap" }).text if side_facts.find('p', { "class" : "wrap" }) else "No original title"
     status = side_facts.find_all('p')[1].text.replace("Status", "", 1).strip() if len(side_facts.find_all('p')) > 1 and original_title != "No original title" else side_facts.find_all('p')[0].text.replace("Status", "", 1).strip()
-    # budget = side_fact
-    # revenue = side_fact
+    original_language = side_facts.find_all('p')[1].text.replace("Original Language", "", 1).strip() if len(side_facts.find_all('p')) > 1 and original_title == "No original title" else side_facts.find_all('p')[2].text.replace("Original Language", "", 1).strip()
+    budget = side_facts.find_all('p')[2].text.replace("Budget", "", 1).strip() if len(side_facts.find_all('p')) > 2 else "No budget"
+    revenue = side_facts.find_all('p')[3].text.replace("Revenue", "", 1).strip() if len(side_facts.find_all('p')) > 3 else "No revenue"
+
+    director = inner_movie.find("ol", {"class": "people no_image"}).find("li").find("p").find("a").text
 
     # finding the keywords for the movie
     keywords_section = inner_movie.find("section", {"class": "keywords right_column"})
@@ -126,6 +127,9 @@ for movie in movies:
     print("status:", status)
     print("movie keywords: ", movie_keywords)
     print("top stars: ", top_stars_list)
+    print("budget:", budget)
+    print("revenue", revenue)
+    print("director:", director)
     print(("-------------------------------------------------\n"))
 
 
@@ -203,3 +207,53 @@ Z0C2Hi9x1s.jpg" srcset="https://media.themoviedb.org/t/p/w220_and_h330_face/yzqH
 '''
 
 # soup.find_all("p", { "class" : "load_more" })[2].find("a").click()
+
+
+'''
+
+essentially we used boosting and bagging
+
+- list out the actos of each row
+- keep the actors with the highest occurences
+- take the top 100 actors
+- use multi hot encoding to represent the presence of each actor in the movie
+- target encoding for the rest of the actors what is it ?
+
+
+tmom hanks1: 40
+tom hanks2: 35
+tom hanks3: 30
+
+then multihot encoding
+
+a1 a2 a3 other_column
+1 1 0 0 0
+0 0 0 0 1
+
+those 100 columsn are a seperate dataframe and then you concatinate it to the original dataframe,
+this allows to know for each movie which, if any, one of the top 100 actors are in the movie
+
+target encoding:
+I accessed all rows where the column for which the tomhanks actor is 1, and calculated the average of the rating for those rows, this essentially gives me the average rating for movies with tom hanks in them ( its as if it's a rating for the actor itself )
+
+we access movie 1,
+we saw the actors of the movie,
+we compared the averages of the actors for a given movie,
+
+max_rating, min_rating, average_rating
+
+max_rating is the one for the most succeffull actor
+min_rating is the ...
+average is the avergage of those
+
+after this process, for each row, the model will now for a given max_rating, min_rating and average_rating
+
+hadi, [hadi1, hadi2, hadi3], 50, 20, 35
+hadi, [hadi1, hadi2, hadi3], 50, 20, 35
+hadi, [hadi1, hadi2, hadi3], 50, 20, 35
+hadi, [hadi1, hadi2, hadi3], 50, 20, 35
+
+what is cross validation?
+Cross-validation is a statistical method used to estimate the skill of machine learning models. It is primarily used in scenarios where the goal is to assess how the results of a predictive model will generalize to an independent dataset. The most common form of cross-validation is k-fold cross-validation, where the dataset is divided into 'k' subsets (or folds). The model is trained on 'k-1' folds and tested on the remaining fold. This process is repeated 'k' times, with each fold being used as the test set once. The results from each iteration are then averaged to produce a single performance metric. This technique helps in mitigating overfitting and provides a more reliable estimate of model performance compared to a single train-test split.
+
+'''
