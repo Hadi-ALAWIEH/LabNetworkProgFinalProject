@@ -1,0 +1,18 @@
+Dear Dr. SALIM,
+Please note the following to know which are the files to be concerned with since there are many draft versions within the repo.
+
+
+For the selenium scraper:
+Please look at the BeforePullingApiBranch,
+for the file called "final_selenium.py" for the sequential one and "multi_threaded_final_selenium.py" for the multithreaded selenium part.
+
+For the beautiful soup scraper:
+Please look at the BeforePullingApiBranch,
+for the file called "bs_movie_clean.py" for the final version of the bs4 scraper.
+
+For the api scraper:
+Please look at the BeforePullingApiBranch,
+for the file "Jad_ApiScrapingTMDB.py"
+
+As for the notebook for the ai model creation and training:
+Please look at the movies_pred.ipynb file within the main branch.
