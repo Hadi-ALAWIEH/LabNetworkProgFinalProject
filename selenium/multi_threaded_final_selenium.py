@@ -13,7 +13,8 @@ columns = [
     "pg_rating", "original_title", "movie_keywords"
 ]
 
-page_count_upper_limit = 10
+# page_count_upper_limit = 10
+page_count_upper_limit = 1 # keep this at 1 for testing; change to 50 for full run
 csv_lock = Lock()
 
 

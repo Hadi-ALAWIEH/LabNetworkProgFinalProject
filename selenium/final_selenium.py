@@ -34,7 +34,7 @@ with open("tmdb_movies_continued.csv", "w", newline="", encoding="utf-8") as csv
     writer = csv.DictWriter(csvfile, fieldnames=columns)
     writer.writeheader()
 
-    for page_counter in range(9, page_count_upper_limit): # tweak this to incrementally get more data from a "middle" page
+    for page_counter in range(9, page_count_upper_limit): # tweak this to incrementally get more data from a "middle" page, for now keep this for a single page for testing
         driver.get(f"https://www.themoviedb.org/movie?page={page_counter}")
 
         # wait until the movie titles appear

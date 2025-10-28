@@ -31,7 +31,7 @@ with open("tmdb_movies_bs4.csv", "w", newline="", encoding="utf-8") as csvfile:
     writer.writeheader()
 
     # scrape multiple pages
-    for page_counter in range(1, 10):  # adjust page range here
+    for page_counter in range(9, 10):  # adjust page range here
         base_url = f"https://www.themoviedb.org/movie?page={page_counter}"
         driver.get(base_url)
         time.sleep(2)
